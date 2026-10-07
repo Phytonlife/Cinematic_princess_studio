@@ -221,9 +221,19 @@ export class StudioStorageService {
     this.persist();
   }
 
-  // Export studio archive for backup / cross-device transfer
+  // Export studio archive for backup / cross-device transfer (lightweight, no bulky media strings)
   public exportStudioArchiveJson(): string {
-    return JSON.stringify(this.state, null, 2);
+    const cleanState = JSON.parse(JSON.stringify(this.state));
+    if (cleanState.weeks) {
+      cleanState.weeks.forEach((w: any) => {
+        if (w.days) {
+          w.days.forEach((d: any) => {
+            delete d.artifactDataUrl;
+          });
+        }
+      });
+    }
+    return JSON.stringify(cleanState, null, 2);
   }
 
   // Import studio archive

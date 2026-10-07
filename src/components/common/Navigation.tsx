@@ -12,6 +12,7 @@ import {
   Settings,
   Sparkles,
   Users,
+  FolderTree,
 } from 'lucide-react';
 import { UserRole } from '../../types';
 import { useThemeLanguage } from '../../context/ThemeLanguageContext';
@@ -21,6 +22,7 @@ export type NavTab =
   | 'curriculum'
   | 'tutorials'
   | 'studio'
+  | 'files'
   | 'skills'
   | 'filmstudy'
   | 'opportunities'
@@ -48,6 +50,7 @@ export const Navigation: React.FC<NavigationProps> = ({
     { id: 'curriculum' as NavTab, label: t('nav_curriculum'), icon: Layers },
     { id: 'tutorials' as NavTab, label: t('nav_tutorials'), icon: BookOpen },
     { id: 'studio' as NavTab, label: t('nav_studio'), icon: Film },
+    { id: 'files' as NavTab, label: language === 'ru' ? 'Файлы студии' : 'My Studio Files', icon: FolderTree },
     { id: 'skills' as NavTab, label: t('nav_skills'), icon: Award },
     { id: 'filmstudy' as NavTab, label: t('nav_filmstudy'), icon: Video },
     { id: 'opportunities' as NavTab, label: t('nav_opportunities'), icon: Radar },

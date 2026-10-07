@@ -7,6 +7,7 @@ export type ShotStatus = 'TODO' | 'STORYBOARD' | 'LAYOUT' | 'GENERATING' | 'REVI
 export interface Tutorial {
   id: string;
   title: string;
+  creator?: string;
   skill: string;
   source: string;
   verifiedUrl: string;
@@ -17,6 +18,7 @@ export interface Tutorial {
   status: TutorialStatus;
   lastChecked: string;
   description: string;
+  platform?: 'youtube' | 'official_site' | 'documentation';
 }
 
 export interface LessonCheckItem {
@@ -37,6 +39,10 @@ export interface LessonDay {
   watchSegment: string;
   practicalTask: string;
   expectedResult: string;
+  saveAsFile?: string;
+  targetFolder?: string;
+  learningMinutes?: number;
+  practiceMinutes?: number;
   checklist: LessonCheckItem[];
   completed: boolean;
   completedAt?: string;

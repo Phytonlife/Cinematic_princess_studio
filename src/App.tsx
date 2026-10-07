@@ -12,11 +12,13 @@ import { Navigation, NavTab } from './components/common/Navigation';
 import { OfflineBanner } from './components/common/OfflineBanner';
 import { PWAInstallModal } from './components/common/PWAInstallModal';
 import { FocusModeModal } from './components/common/FocusModeModal';
+import { BackupModal } from './components/common/BackupModal';
 
 import { TodayView } from './components/today/TodayView';
 import { CurriculumView } from './components/curriculum/CurriculumView';
 import { TutorialLibraryView } from './components/tutorials/TutorialLibraryView';
 import { StudioHubView } from './components/studio/StudioHubView';
+import { StudioFilesView } from './components/files/StudioFilesView';
 import { SkillTreeView } from './components/skilltree/SkillTreeView';
 import { FilmStudyView } from './components/filmstudy/FilmStudyView';
 import { OpportunitiesView } from './components/opportunities/OpportunitiesView';
@@ -31,6 +33,7 @@ function StudioAcademyApp() {
   const [selectedDayNumber, setSelectedDayNumber] = useState<number>(state.stats.currentDay);
   const [isFocusModeOpen, setIsFocusModeOpen] = useState(false);
   const [isInstallModalOpen, setIsInstallModalOpen] = useState(false);
+  const [isBackupModalOpen, setIsBackupModalOpen] = useState(false);
 
   const { isInstallable, isInstalled, isIOS, isOnline, install } = usePWA();
   const { theme } = useThemeLanguage();
@@ -78,6 +81,7 @@ function StudioAcademyApp() {
         currentRole={state.currentRole}
         onOpenInstallModal={() => setIsInstallModalOpen(true)}
         onOpenFocusMode={() => setIsFocusModeOpen(true)}
+        onOpenBackupModal={() => setIsBackupModalOpen(true)}
         isInstalled={isInstalled}
       />
 
@@ -102,6 +106,10 @@ function StudioAcademyApp() {
               onLaunchFocusMode={() => setIsFocusModeOpen(true)}
               onSelectDay={handleSelectDay}
               totalDaysCompleted={state.stats.totalDaysCompleted}
+              onNavigateToFiles={() => {
+                setActiveTab('files');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
             />
           )}
 
@@ -124,6 +132,13 @@ function StudioAcademyApp() {
               characters={state.characters}
               shots={state.shots}
               provenance={state.provenance}
+            />
+          )}
+
+          {activeTab === 'files' && (
+            <StudioFilesView
+              currentLesson={currentLesson}
+              onOpenBackupModal={() => setIsBackupModalOpen(true)}
             />
           )}
 
@@ -170,6 +185,13 @@ function StudioAcademyApp() {
         onClose={() => setIsInstallModalOpen(false)}
         isIOS={isIOS}
         onInstallChromium={install}
+      />
+
+      {/* Studio Progress Backup & Restore Modal */}
+      <BackupModal
+        isOpen={isBackupModalOpen}
+        onClose={() => setIsBackupModalOpen(false)}
+        stats={state.stats}
       />
     </div>
   );

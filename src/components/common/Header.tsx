@@ -8,7 +8,7 @@ import {
   Check,
   Sun,
   Moon,
-  Globe,
+  Database,
 } from 'lucide-react';
 import { UserRole, StudioUserStats } from '../../types';
 import { studioStorage } from '../../services/storageService';
@@ -19,6 +19,7 @@ interface HeaderProps {
   currentRole: UserRole;
   onOpenInstallModal: () => void;
   onOpenFocusMode: () => void;
+  onOpenBackupModal: () => void;
   isInstalled: boolean;
 }
 
@@ -27,6 +28,7 @@ export const Header: React.FC<HeaderProps> = ({
   currentRole,
   onOpenInstallModal,
   onOpenFocusMode,
+  onOpenBackupModal,
   isInstalled,
 }) => {
   const { language, setLanguage, theme, toggleTheme, t } = useThemeLanguage();
@@ -131,6 +133,16 @@ export const Header: React.FC<HeaderProps> = ({
             <Sparkles className="w-3.5 h-3.5 text-amber-400 shrink-0" />
             <span>{t('xp_label', { xp: stats.totalXp })}</span>
           </div>
+
+          {/* Studio Backup Quick Action */}
+          <button
+            onClick={onOpenBackupModal}
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-xs font-semibold text-slate-200 hover:text-white transition shadow-sm"
+            title={language === 'ru' ? 'Резервная копия студии (Экспорт / Импорт JSON)' : 'Studio Backup (Export / Restore JSON)'}
+          >
+            <Database className="w-3.5 h-3.5 text-amber-400" />
+            <span className="hidden md:inline">{language === 'ru' ? 'Бэкап' : 'Backup'}</span>
+          </button>
 
           {/* Focus Mode Quick Action (iPad friendly) */}
           <button
