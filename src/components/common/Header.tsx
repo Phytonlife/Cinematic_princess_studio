@@ -134,14 +134,19 @@ export const Header: React.FC<HeaderProps> = ({
             <span>{t('xp_label', { xp: stats.totalXp })}</span>
           </div>
 
-          {/* Studio Backup Quick Action */}
+          {/* Studio Backup Quick Action with Local Progress Indicator */}
           <button
             onClick={onOpenBackupModal}
             className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-xs font-semibold text-slate-200 hover:text-white transition shadow-sm"
-            title={language === 'ru' ? 'Резервная копия студии (Экспорт / Импорт JSON)' : 'Studio Backup (Export / Restore JSON)'}
+            title={language === 'ru' ? 'Локальный прогресс. Рекомендуется бэкап (Экспорт / Импорт JSON)' : 'Local progress. Backup recommended (Export / Restore JSON)'}
           >
             <Database className="w-3.5 h-3.5 text-amber-400" />
-            <span className="hidden md:inline">{language === 'ru' ? 'Бэкап' : 'Backup'}</span>
+            <div className="flex items-center gap-1.5">
+              <span className="hidden xl:inline text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold">
+                {language === 'ru' ? 'ЛОКАЛЬНО' : 'LOCAL PROGRESS'}
+              </span>
+              <span className="hidden md:inline">{language === 'ru' ? 'Бэкап' : 'Backup'}</span>
+            </div>
           </button>
 
           {/* Focus Mode Quick Action (iPad friendly) */}
@@ -186,7 +191,7 @@ export const Header: React.FC<HeaderProps> = ({
               {currentRole === 'student' ? t('role_student') : t('role_dad')}
             </span>
             <span className="sm:hidden">
-              {currentRole === 'student' ? 'Aila' : 'Dad'}
+              {currentRole === 'student' ? (language === 'ru' ? 'Студент' : 'Student') : (language === 'ru' ? 'Папа' : 'Dad')}
             </span>
           </button>
         </div>

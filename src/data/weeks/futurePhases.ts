@@ -27,7 +27,7 @@ export const generateWeeks13To52 = (phasesInfo: Array<{ phaseNumber: number; tit
     { w: 25, p: 7, title: 'Google Veo & Runway Gen-4 Reference Workflows', focus: 'Multi-reference conditioning: locking character faces across varied angles.', milestone: 'veo-reference-lock-test.mp4' },
     { w: 26, p: 7, title: 'First Frame / Last Frame Guided Generation', focus: 'Controlling beginning and end poses to eliminate AI morphing glitches.', milestone: 'first-last-frame-sequence.mp4' },
     { w: 27, p: 7, title: '3D Layout Hybrid Workflows in AI Production', focus: 'Using simple 3D blockout renders as guidance for high-res AI diffusion.', milestone: 'hybrid-3d-ai-test.mp4' },
-    { w: 28, p: 7, title: '12-Shot Consistent AI Sequence Capstone', focus: 'Deliver 12 consecutive shots of Ayla and Altai without character drift.', milestone: '028-twelve-shot-ai-sequence.mp4' },
+    { w: 28, p: 7, title: '12-Shot Consistent AI Sequence Capstone', focus: 'Deliver 12 consecutive shots of your original characters without visual drift.', milestone: '028-twelve-shot-ai-sequence.mp4' },
 
     // Phase 8: Film #2 Production (2–5 Minutes) (Weeks 29–32)
     { w: 29, p: 8, title: 'Film #2: Story, Script & Expanded World', focus: 'Write a 2–5 minute script with multi-character interactions and stakes.', milestone: 'film-2-script-bible.pdf' },

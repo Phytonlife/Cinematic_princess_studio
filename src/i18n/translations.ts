@@ -13,8 +13,8 @@ export const translations = {
     focus_mode: 'Focus Mode',
     install_app: 'Install App',
     installed: 'Installed',
-    role_student: 'Student: Aila',
-    role_dad: 'Dad: Director',
+    role_student: 'Student: Director',
+    role_dad: 'Dad: Technical Lead',
 
     // Navigation
     nav_today: "Today's Mission",
@@ -108,7 +108,7 @@ export const translations = {
     prev_day: 'Previous Day',
     next_day: 'Next Day',
     offline_badge: 'Offline Studio Mode',
-    offline_text: 'All loaded lessons, curriculum, and your progress remain saved locally. Syncs when reconnected.',
+    offline_text: 'All progress is stored locally in your browser storage. Remember to export a backup periodically.',
   },
   ru: {
     // Header
@@ -121,8 +121,8 @@ export const translations = {
     focus_mode: 'Фокус-режим',
     install_app: 'Установить',
     installed: 'Установлено',
-    role_student: 'Студент: Айла',
-    role_dad: 'Папа: Режиссёр',
+    role_student: 'Студент: Режиссёр',
+    role_dad: 'Папа: Техлид',
 
     // Navigation
     nav_today: 'Миссия на сегодня',
@@ -215,8 +215,8 @@ export const translations = {
     // Common
     prev_day: 'Предыдущий день',
     next_day: 'Следующий день',
-    offline_badge: 'Офлайн режим студии',
-    offline_text: 'Все загруженные уроки и прогресс сохранены локально. Синхронизируются при подключении к сети.',
+    offline_badge: 'Локальный режим студии',
+    offline_text: 'Все уроки и прогресс сохраняются локально в хранилище браузера. Рекомендуется периодически делать бэкап.',
   },
 } as const;
 

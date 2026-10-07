@@ -1,6 +1,6 @@
 export type UserRole = 'student' | 'parent';
 
-export type TutorialStatus = 'VERIFIED' | 'NEEDS_RECHECK' | 'BROKEN';
+export type TutorialStatus = 'VERIFIED_EXACT' | 'VERIFIED_GENERAL' | 'NEEDS_RECHECK';
 export type SkillLevel = 'BEGINNER' | 'LEARNING' | 'COMPETENT' | 'STRONG' | 'PRODUCTION_READY';
 export type ShotStatus = 'TODO' | 'STORYBOARD' | 'LAYOUT' | 'GENERATING' | 'REVIEW' | 'REVISION' | 'APPROVED' | 'FINAL';
 
@@ -206,6 +206,6 @@ export interface StudioDatabaseState {
   skills: StudioSkill[];
   opportunities: OpportunityItem[];
   aiTools: AIToolWatchItem[];
-  isCloudSynced: boolean;
-  lastSyncTimestamp: string;
+  storageMode: 'LOCAL_PROGRESS';
+  lastSavedTimestamp: string;
 }

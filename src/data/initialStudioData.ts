@@ -16,7 +16,7 @@ export const INITIAL_USER_STATS: StudioUserStats = {
   totalHoursLearned: 3.5,
   totalXp: 180,
   completedArtifactsCount: 3,
-  activeFilm: 'Film #1: Steppe Wind Awakening (45 sec)',
+  activeFilm: 'Film #1: Student Original Short (30–90 sec)',
 };
 
 export const INITIAL_SKILLS: StudioSkill[] = [
@@ -29,7 +29,7 @@ export const INITIAL_SKILLS: StudioSkill[] = [
     targetXp: 1000,
     iconName: 'PenTool',
     completedExercisesCount: 14,
-    verifiedProjects: ['Procreate Character Portfolio', 'Kazakh Attire Studies'],
+    verifiedProjects: ['Procreate Character Portfolio', 'Attire Studies'],
   },
   {
     id: 'skill-char-design',
@@ -40,7 +40,7 @@ export const INITIAL_SKILLS: StudioSkill[] = [
     targetXp: 750,
     iconName: 'UserCheck',
     completedExercisesCount: 8,
-    verifiedProjects: ['Aila Silhouette Exploration', 'Original Archetypes Sheet'],
+    verifiedProjects: ['Silhouette Exploration', 'Original Archetypes Sheet'],
   },
   {
     id: 'skill-storytelling',

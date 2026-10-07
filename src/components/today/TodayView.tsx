@@ -274,8 +274,22 @@ export const TodayView: React.FC<TodayViewProps> = ({
                 <BookOpen className="w-4 h-4 text-amber-400" />
                 <span>{t('step_3_learn')}</span>
               </div>
-              <span className="text-[11px] font-mono text-emerald-400 flex items-center gap-1 font-semibold">
-                {lesson.tutorial.isOfficial ? t('official_source_badge') : '⭐ VERIFIED EXPERT TUTORIAL'}
+              <span className="text-[11px] font-mono flex items-center gap-1 font-bold">
+                {lesson.tutorial.status === 'VERIFIED_EXACT' && (
+                  <span className="text-emerald-400 bg-emerald-500/15 border border-emerald-500/30 px-2 py-0.5 rounded">
+                    ⭐ {language === 'ru' ? 'ТОЧНЫЙ УРОК' : 'VERIFIED EXACT LESSON'}
+                  </span>
+                )}
+                {lesson.tutorial.status === 'VERIFIED_GENERAL' && (
+                  <span className="text-blue-400 bg-blue-500/15 border border-blue-500/30 px-2 py-0.5 rounded">
+                    📖 {language === 'ru' ? 'ОФИЦ. ДОКУМЕНТАЦИЯ' : 'GENERAL DOCUMENTATION'}
+                  </span>
+                )}
+                {lesson.tutorial.status === 'NEEDS_RECHECK' && (
+                  <span className="text-amber-400 bg-amber-500/15 border border-amber-500/30 px-2 py-0.5 rounded">
+                    ⚠️ {language === 'ru' ? 'ОБЩИЙ МАТЕРИАЛ' : 'NEEDS RECHECK'}
+                  </span>
+                )}
               </span>
             </div>
 

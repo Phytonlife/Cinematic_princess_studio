@@ -102,7 +102,7 @@ export const TutorialLibraryView: React.FC<TutorialLibraryViewProps> = ({ tutori
       {/* Tutorial Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {filteredTutorials.map(tut => {
-          const isVerified = tut.status === 'VERIFIED';
+          const isVerified = tut.status === 'VERIFIED_EXACT' || tut.status === 'VERIFIED_GENERAL';
           return (
             <div
               key={tut.id}
@@ -123,13 +123,19 @@ export const TutorialLibraryView: React.FC<TutorialLibraryViewProps> = ({ tutori
                   </div>
 
                   <span
-                    className={`text-[10px] font-mono px-2 py-0.5 rounded ${
-                      isVerified
-                        ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
-                        : 'bg-amber-500/15 text-amber-400 border border-amber-500/30'
+                    className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded border ${
+                      tut.status === 'VERIFIED_EXACT'
+                        ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
+                        : tut.status === 'VERIFIED_GENERAL'
+                        ? 'bg-blue-500/15 text-blue-400 border-blue-500/30'
+                        : 'bg-amber-500/15 text-amber-400 border-amber-500/30'
                     }`}
                   >
-                    {tut.status}
+                    {tut.status === 'VERIFIED_EXACT'
+                      ? (language === 'ru' ? 'ТОЧНЫЙ УРОК' : 'EXACT LESSON')
+                      : tut.status === 'VERIFIED_GENERAL'
+                      ? (language === 'ru' ? 'ОФИЦ. ДОКУМЕНТАЦИЯ' : 'GENERAL DOC')
+                      : (language === 'ru' ? 'ПРОВЕРИТЬ' : 'NEEDS RECHECK')}
                   </span>
                 </div>
 

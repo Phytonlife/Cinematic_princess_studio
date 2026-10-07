@@ -83,13 +83,13 @@ export const ParentDashboardView: React.FC<ParentDashboardViewProps> = ({ state 
                 DIRECTOR FATHER CONTROL CONSOLE
               </span>
               <span className="text-xs text-slate-500">·</span>
-              <span className="text-xs text-slate-300">TECHNICAL PIPELINE &amp; SYNC</span>
+              <span className="text-xs text-slate-300">TECHNICAL PIPELINE &amp; STORAGE</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-black text-white">
               Dad Management Dashboard
             </h1>
             <p className="text-xs text-slate-300 mt-1 max-w-2xl leading-relaxed">
-              Managing the technical architecture for your daughter: pipeline automation, AI models, PostgreSQL cloud synchronization, and forward curriculum audits.
+              Managing the technical architecture for your daughter: pipeline automation, AI models, local browser progress, JSON backups, and forward curriculum audits.
             </p>
           </div>
 
@@ -171,16 +171,16 @@ export const ParentDashboardView: React.FC<ParentDashboardViewProps> = ({ state 
         </div>
       </div>
 
-      {/* Cloud & Database Schema Console */}
+      {/* Local Storage Architecture & Schema Reference */}
       <div className="bg-[#101422] border border-slate-800 rounded-3xl p-6 space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <div className="flex items-center gap-2">
               <Database className="w-4 h-4 text-purple-400" />
-              <h2 className="text-base font-bold text-white">PostgreSQL &amp; Supabase Database Console</h2>
+              <h2 className="text-base font-bold text-white">Database Architecture &amp; Future Schema Reference</h2>
             </div>
             <p className="text-xs text-slate-400 mt-1">
-              Cross-device family synchronization: iPad Procreate exports, PC Blender renders, and mobile progress.
+              Currently running on 100% private, free local storage. For future studio scaling, the relational SQL structure is archived below.
             </p>
           </div>
 
@@ -211,13 +211,13 @@ export const ParentDashboardView: React.FC<ParentDashboardViewProps> = ({ state 
           </div>
         )}
 
-        <div className="p-4 bg-[#0b0e18] rounded-2xl border border-slate-800 text-xs text-slate-300 flex items-center justify-between">
+        <div className="p-4 bg-[#0b0e18] rounded-2xl border border-slate-800 text-xs text-slate-300 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-            <span>Local &amp; Offline Indexed Storage: <strong>Active &amp; Ready</strong></span>
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
+            <span>Storage Status: <strong className="text-emerald-300">LOCAL PROGRESS</strong> · <span className="text-slate-400">Backup recommended periodically</span></span>
           </div>
           <span className="text-slate-400 font-mono text-[11px]">
-            Last Synced: {new Date(state.lastSyncTimestamp).toLocaleTimeString()}
+            Last Saved: {new Date(state.lastSavedTimestamp || Date.now()).toLocaleTimeString()}
           </span>
         </div>
       </div>

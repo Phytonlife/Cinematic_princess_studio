@@ -315,30 +315,40 @@ export const StudioHubView: React.FC<StudioHubViewProps> = ({
       {/* SUB-TAB 2: CHARACTERS IP */}
       {activeSubTab === 'characters' && (
         <div className="space-y-6">
-          <div className="p-4 bg-amber-500/10 border border-amber-500/20 rounded-2xl text-xs text-amber-200 flex items-center justify-between">
-            <span>
-              <strong>Original IP Vault:</strong> Every character is original intellectual property created by the student, grounded in respectful Kazakh cultural traditions.
-            </span>
-            <span className="font-mono text-amber-300 font-bold shrink-0 ml-4">
-              CHARACTER BIBLE V1 LOCKED
-            </span>
+          <div className="p-4 bg-amber-500/10 border border-amber-500/20 rounded-2xl text-xs text-amber-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold border border-amber-500/30">
+                  DEMO EXAMPLE — DO NOT COPY
+                </span>
+                <span className="font-bold text-amber-300">Your Original IP Freedom:</span>
+              </div>
+              <p className="text-slate-300">
+                The entries below are sample reference profiles to illustrate Character Bible structure. The student creates her OWN original characters, names, personalities, designs, and story world in Weeks 5–8!
+              </p>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {characters.map(char => (
               <div
                 key={char.id}
-                className="bg-[#101422] border border-slate-800 rounded-3xl p-6 space-y-5 hover:border-slate-700 transition"
+                className="bg-[#101422] border border-slate-800 rounded-3xl p-6 space-y-5 hover:border-slate-700 transition relative overflow-hidden"
               >
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <span className="text-[11px] font-mono text-amber-400 uppercase tracking-wider font-bold">
-                      {char.role}
-                    </span>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-bold border border-slate-700/60">
+                        DEMO EXAMPLE
+                      </span>
+                      <span className="text-[11px] font-mono text-amber-400 uppercase tracking-wider font-bold">
+                        {char.role}
+                      </span>
+                    </div>
                     <h3 className="text-2xl font-black text-white mt-0.5">{char.name}</h3>
                   </div>
 
-                  <span className="text-xs font-mono px-2.5 py-1 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 font-semibold">
+                  <span className="text-xs font-mono px-2.5 py-1 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 font-semibold shrink-0">
                     {char.status}
                   </span>
                 </div>

@@ -57,14 +57,14 @@ export class StudioStorageService {
       skills: INITIAL_SKILLS,
       opportunities: INITIAL_OPPORTUNITIES,
       aiTools: INITIAL_AI_TOOLS,
-      isCloudSynced: true,
-      lastSyncTimestamp: new Date().toISOString(),
+      storageMode: 'LOCAL_PROGRESS',
+      lastSavedTimestamp: new Date().toISOString(),
     };
   }
 
   private persist() {
     try {
-      this.state.lastSyncTimestamp = new Date().toISOString();
+      this.state.lastSavedTimestamp = new Date().toISOString();
       localStorage.setItem(STORAGE_KEY, JSON.stringify(this.state));
     } catch (e) {
       console.error('Storage persist error:', e);

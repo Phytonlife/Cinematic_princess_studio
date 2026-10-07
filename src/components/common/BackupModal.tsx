@@ -94,11 +94,16 @@ export const BackupModal: React.FC<BackupModalProps> = ({ isOpen, onClose, stats
             <Database className="w-6 h-6" />
           </div>
           <div>
-            <span className="text-[10px] font-mono uppercase tracking-wider text-amber-400 font-bold block">
-              {language === 'ru' ? 'СЕМЕЙНЫЙ АРХИВ СТУДИИ' : 'PRIVATE STUDIO ARCHIVE'}
-            </span>
-            <h3 className="text-xl font-black text-white">
-              {language === 'ru' ? 'Резервная копия и синхронизация' : 'Studio Backup & Restore'}
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-400 font-bold px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20">
+                {language === 'ru' ? 'ЛОКАЛЬНЫЙ ПРОГРЕСС' : 'LOCAL PROGRESS'}
+              </span>
+              <span className="text-[10px] font-mono uppercase tracking-wider text-amber-400 font-bold">
+                {language === 'ru' ? '• РЕКОМЕНДУЕТСЯ БЭКАП' : '• BACKUP RECOMMENDED'}
+              </span>
+            </div>
+            <h3 className="text-xl font-black text-white mt-1">
+              {language === 'ru' ? 'Резервная копия студии' : 'Studio Backup & Restore'}
             </h3>
           </div>
         </div>

@@ -96,12 +96,23 @@ export const Navigation: React.FC<NavigationProps> = ({
           })}
         </nav>
 
-        {/* Quick Studio Philosophy Note */}
-        <div className="mt-auto pt-4 border-t border-slate-800/60 text-[11px] text-slate-400 p-2.5 bg-[#0c0f18] rounded-xl">
-          <div className="font-semibold text-slate-300 mb-1">{t('nav_rule_title')}</div>
-          <p className="text-[10px] text-slate-400 leading-relaxed">
-            {t('nav_rule_desc')}
-          </p>
+        {/* Quick Studio Philosophy Note & Local Progress Badge */}
+        <div className="mt-auto space-y-2">
+          <div className="p-2.5 bg-[#0c0f18] rounded-xl border border-slate-800/60 text-[11px] text-slate-400">
+            <div className="font-semibold text-slate-300 mb-1">{t('nav_rule_title')}</div>
+            <p className="text-[10px] text-slate-400 leading-relaxed">
+              {t('nav_rule_desc')}
+            </p>
+          </div>
+
+          <div className="p-2.5 bg-emerald-500/5 rounded-xl border border-emerald-500/20 text-[10px] flex items-center justify-between">
+            <span className="font-mono text-emerald-400 font-bold uppercase">
+              {language === 'ru' ? 'ЛОКАЛЬНЫЙ ПРОГРЕСС' : 'LOCAL PROGRESS'}
+            </span>
+            <span className="text-slate-400">
+              {language === 'ru' ? 'Бэкап в норме' : 'Backup ready'}
+            </span>
+          </div>
         </div>
       </aside>
 
