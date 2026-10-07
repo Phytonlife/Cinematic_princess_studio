@@ -397,9 +397,9 @@ export const PHASE_2_WEEKS: WeekModule[] = [
     weekNumber: 7,
     title: 'The 4-Angle Model Sheet: Turnaround Masterclass',
     phaseNumber: 2,
-    phaseTitle: 'Character Design & Kazakh IP',
+    phaseTitle: 'Character Design & Original IP',
     focusSummary: 'Construct the industry-standard 4-angle Model Sheet: Front, 3/4 Front, Profile, and Back view with horizontal alignment guides so proportions match 100%.',
-    milestoneArtifact: '048-ayla-official-turnaround.png',
+    milestoneArtifact: '048-my-character-official-turnaround.png',
     targetDurationWeeklyMinutes: 240,
     days: [
       {
@@ -594,7 +594,7 @@ export const PHASE_2_WEEKS: WeekModule[] = [
     phaseNumber: 2,
     phaseTitle: 'Character Design & Original IP',
     focusSummary: 'Build out 15 expressive facial emotions, 6 dynamic storytelling action poses, color script, and bind into the official Character Bible v1.',
-    milestoneArtifact: '055-original-character-bible-v1.pdf',
+    milestoneArtifact: '055-my-character-bible-v1.pdf',
     targetDurationWeeklyMinutes: 240,
     days: [
       {

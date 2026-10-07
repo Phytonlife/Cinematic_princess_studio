@@ -165,6 +165,20 @@ export const StudioHubView: React.FC<StudioHubViewProps> = ({
       {/* SUB-TAB 1: SHOT TRACKER */}
       {activeSubTab === 'shots' && (
         <div className="space-y-6">
+          <div className="p-4 bg-amber-500/10 border border-amber-500/20 rounded-2xl text-xs text-amber-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold border border-amber-500/30">
+                  DEMO EXAMPLE — DO NOT COPY
+                </span>
+                <span className="font-bold text-amber-300">Production Shot Tracker:</span>
+              </div>
+              <p className="text-slate-300">
+                These initial 4 sample shots demonstrate professional pipeline workflow. In Week 12, the student defines and tracks HER OWN Film #1 master shots!
+              </p>
+            </div>
+          </div>
+
           {/* Status Metrics Bar */}
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
             <div className="bg-[#101422] border border-slate-800 rounded-2xl p-4">
@@ -217,7 +231,7 @@ export const StudioHubView: React.FC<StudioHubViewProps> = ({
             </div>
 
             <div className="text-xs font-mono text-slate-400">
-              Active Project: <strong className="text-amber-300">Film #1 (Steppe Wind)</strong>
+              Active Project: <strong className="text-amber-300">Film #1 (Student Original Short)</strong>
             </div>
           </div>
 
@@ -416,60 +430,90 @@ export const StudioHubView: React.FC<StudioHubViewProps> = ({
 
       {/* SUB-TAB 3: PROJECTS */}
       {activeSubTab === 'projects' && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {projects.map(proj => (
-            <div
-              key={proj.id}
-              className="bg-[#101422] border border-slate-800 rounded-3xl p-6 space-y-4 hover:border-slate-700 transition"
-            >
-              <div className="flex items-start justify-between gap-3">
-                <div>
-                  <span className="text-[11px] font-mono text-amber-400 uppercase tracking-wider font-bold">
-                    Target: {proj.targetDuration} · Phase {proj.phase}
-                  </span>
-                  <h3 className="text-xl font-bold text-white mt-0.5">{proj.title}</h3>
-                </div>
-                <span className="text-xs font-mono px-2.5 py-1 rounded-lg bg-blue-500/15 text-blue-300 border border-blue-500/30">
-                  {proj.status}
+        <div className="space-y-6">
+          <div className="p-4 bg-amber-500/10 border border-amber-500/20 rounded-2xl text-xs text-amber-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold border border-amber-500/30">
+                  DEMO EXAMPLE — DO NOT COPY
                 </span>
+                <span className="font-bold text-amber-300">Studio Roadmap Examples:</span>
               </div>
-
-              <p className="text-xs text-slate-300 leading-relaxed">
-                {proj.logline}
+              <p className="text-slate-300">
+                These project loglines serve as professional pitch examples. Film #1 is 100% written, designed, and directed by the student!
               </p>
-
-              <div className="bg-[#0b0e18] p-3.5 rounded-xl border border-slate-800 text-xs">
-                <div className="text-slate-400 font-mono text-[10px] uppercase">CURRENT MILESTONE STEP:</div>
-                <div className="text-white font-medium mt-0.5">{proj.currentStep}</div>
-              </div>
-
-              {/* Progress bar */}
-              <div>
-                <div className="flex justify-between text-xs text-slate-400 font-mono mb-1">
-                  <span>SHOT PRODUCTION</span>
-                  <span>{proj.completedShots} / {proj.shotCount} shots ({proj.completionPercentage}%)</span>
-                </div>
-                <div className="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-amber-500 to-amber-400 transition-all duration-500"
-                    style={{ width: `${proj.completionPercentage}%` }}
-                  />
-                </div>
-              </div>
-
-              {proj.directorStatement && (
-                <div className="pt-2 text-xs text-slate-400 italic">
-                  Director Note: "{proj.directorStatement}"
-                </div>
-              )}
             </div>
-          ))}
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {projects.map(proj => (
+              <div
+                key={proj.id}
+                className="bg-[#101422] border border-slate-800 rounded-3xl p-6 space-y-4 hover:border-slate-700 transition"
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <span className="text-[11px] font-mono text-amber-400 uppercase tracking-wider font-bold">
+                      Target: {proj.targetDuration} · Phase {proj.phase}
+                    </span>
+                    <h3 className="text-xl font-bold text-white mt-0.5">{proj.title}</h3>
+                  </div>
+                  <span className="text-xs font-mono px-2.5 py-1 rounded-lg bg-blue-500/15 text-blue-300 border border-blue-500/30">
+                    {proj.status}
+                  </span>
+                </div>
+
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  {proj.logline}
+                </p>
+
+                <div className="bg-[#0b0e18] p-3.5 rounded-xl border border-slate-800 text-xs">
+                  <div className="text-slate-400 font-mono text-[10px] uppercase">CURRENT MILESTONE STEP:</div>
+                  <div className="text-white font-medium mt-0.5">{proj.currentStep}</div>
+                </div>
+
+                {/* Progress bar */}
+                <div>
+                  <div className="flex justify-between text-xs text-slate-400 font-mono mb-1">
+                    <span>SHOT PRODUCTION</span>
+                    <span>{proj.completedShots} / {proj.shotCount} shots ({proj.completionPercentage}%)</span>
+                  </div>
+                  <div className="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
+                    <div
+                      className="h-full bg-gradient-to-r from-amber-500 to-amber-400 transition-all duration-500"
+                      style={{ width: `${proj.completionPercentage}%` }}
+                    />
+                  </div>
+                </div>
+
+                {proj.directorStatement && (
+                  <div className="pt-2 text-xs text-slate-400 italic">
+                    Director Note: "{proj.directorStatement}"
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       )}
 
       {/* SUB-TAB 4: PROVENANCE & AI DISCLOSURE */}
       {activeSubTab === 'provenance' && currentProv && (
         <div className="space-y-6">
+          <div className="p-4 bg-amber-500/10 border border-amber-500/20 rounded-2xl text-xs text-amber-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold border border-amber-500/30">
+                  DEMO EXAMPLE — DO NOT COPY
+                </span>
+                <span className="font-bold text-amber-300">Film Festival Provenance Tracker:</span>
+              </div>
+              <p className="text-slate-300">
+                This audit log illustrates how to document human authorship for festival submissions (Annecy, Sundance). Your real film provenance will record your own original assets!
+              </p>
+            </div>
+          </div>
+
           <div className="bg-[#101422] border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
