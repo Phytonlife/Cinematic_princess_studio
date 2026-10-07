@@ -1,0 +1,6 @@
+{
+  "name": "Animation Studio Academy",
+  "description": "Personal 365-day animation studio academy and production dashboard for creating original animated films.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
