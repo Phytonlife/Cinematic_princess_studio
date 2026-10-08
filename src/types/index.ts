@@ -195,6 +195,7 @@ export interface StudioUserStats {
 }
 
 export interface StudioDatabaseState {
+  curriculumVersion?: number;
   currentRole: UserRole;
   stats: StudioUserStats;
   weeks: WeekModule[];

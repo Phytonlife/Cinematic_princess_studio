@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Download, Upload, CheckCircle2, AlertCircle, Shield, FileText, Sparkles, Check, Database } from 'lucide-react';
+import { X, Download, Upload, CheckCircle2, AlertCircle, Shield, FileText, Sparkles, Check, Database, RotateCcw } from 'lucide-react';
 import { studioStorage } from '../../services/storageService';
 import { StudioUserStats } from '../../types';
 import { useThemeLanguage } from '../../context/ThemeLanguageContext';
@@ -13,8 +13,36 @@ interface BackupModalProps {
 export const BackupModal: React.FC<BackupModalProps> = ({ isOpen, onClose, stats }) => {
   const { t, language } = useThemeLanguage();
   const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [confirmingFresh, setConfirmingFresh] = useState(false);
 
   if (!isOpen) return null;
+
+  const handleStartFresh = () => {
+    if (!confirmingFresh) {
+      setConfirmingFresh(true);
+      return;
+    }
+
+    try {
+      studioStorage.startFreshWithBackup();
+      setStatusMessage({
+        type: 'success',
+        text: language === 'ru'
+          ? 'Студия успешно запущена с чистого листа (День 1, 0 XP)! Резервная копия сохранена.'
+          : 'Started fresh from Day 1 with 0 XP! Pre-reset backup archived.',
+      });
+      setConfirmingFresh(false);
+      setTimeout(() => {
+        setStatusMessage(null);
+        onClose();
+      }, 1800);
+    } catch (e) {
+      setStatusMessage({
+        type: 'error',
+        text: language === 'ru' ? 'Ошибка сброса.' : 'Reset error.',
+      });
+    }
+  };
 
   const handleExport = () => {
     try {
@@ -174,6 +202,34 @@ export const BackupModal: React.FC<BackupModalProps> = ({ isOpen, onClose, stats
             </span>
             <input type="file" accept=".json" onChange={handleImport} className="hidden" />
           </label>
+        </div>
+
+        {/* START FRESH / RESET BUTTON WITH SAFETY BACKUP */}
+        <div className="mt-4 p-3.5 rounded-2xl bg-[#090b14] border border-slate-800/80 flex items-center justify-between gap-3">
+          <div>
+            <div className="text-xs font-bold text-white flex items-center gap-1.5">
+              <RotateCcw className="w-3.5 h-3.5 text-amber-400" />
+              <span>{language === 'ru' ? 'Начать обучение с чистого листа' : 'Start Fresh (Day 1, 0 XP)'}</span>
+            </div>
+            <div className="text-[11px] text-slate-400 mt-0.5">
+              {language === 'ru'
+                ? 'Автоматически создаёт резервную копию перед сбросом демо-данных.'
+                : 'Creates a safety backup before resetting demo progress.'}
+            </div>
+          </div>
+
+          <button
+            onClick={handleStartFresh}
+            className={`px-3.5 py-2 rounded-xl text-xs font-bold transition shrink-0 uppercase tracking-wider ${
+              confirmingFresh
+                ? 'bg-rose-500 hover:bg-rose-600 text-white animate-pulse'
+                : 'bg-slate-800 hover:bg-slate-700 text-slate-200'
+            }`}
+          >
+            {confirmingFresh
+              ? (language === 'ru' ? 'ТОЧНО НАЧАТЬ ЗАНОВО?' : 'CONFIRM RESET?')
+              : (language === 'ru' ? 'НАЧАТЬ С 0' : 'START FRESH')}
+          </button>
         </div>
 
         <div className="mt-6 pt-4 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">

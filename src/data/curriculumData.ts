@@ -9,8 +9,8 @@ export const PHASES_INFO: PhaseInfo[] = [
     phaseNumber: 1,
     weeksRange: 'Weeks 1–4',
     title: 'Foundations of Motion & 3D',
-    description: 'Blender interface, viewport cameras, lighting, keyframing, 12 animation principles, and Procreate frame-by-frame on iPad.',
-    targetArtifact: 'First Primitive 10s Film + Hand-drawn 5s loop',
+    description: 'Week 1: Procreate 2D animation, Week 2: Blender 3D modeling & lighting, Week 3: Blender keyframes & bouncing ball, Week 4: First completed 10–20s animated short.',
+    targetArtifact: 'First Completed 10–20s Animated Short Film',
     isUnlocked: true,
   },
   {

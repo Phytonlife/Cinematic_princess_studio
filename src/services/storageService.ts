@@ -21,7 +21,13 @@ import {
   INITIAL_AI_TOOLS,
 } from '../data/initialStudioData';
 
-const STORAGE_KEY = 'animation_studio_academy_v1';
+export const CURRICULUM_VERSION = 3;
+const STORAGE_KEY = 'animation_studio_academy_v3';
+const LEGACY_STORAGE_KEYS = [
+  'animation_studio_academy_v2',
+  'animation_studio_academy_v1',
+];
+const AUTO_BACKUP_KEY = 'animation_studio_academy_pre_reset_backup';
 
 export class StudioStorageService {
   private state: StudioDatabaseState;
@@ -31,35 +37,213 @@ export class StudioStorageService {
     this.state = this.loadInitialState();
   }
 
-  private loadInitialState(): StudioDatabaseState {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        // Ensure structure validity
-        if (parsed.stats && parsed.weeks && parsed.projects) {
-          return parsed;
-        }
-      }
-    } catch (e) {
-      console.warn('Could not read from localStorage, using initial state:', e);
-    }
+  private createFreshInitialState(): StudioDatabaseState {
+    const freshWeeks = INITIAL_CURRICULUM.map(week => ({
+      ...week,
+      days: week.days.map(day => ({
+        ...day,
+        completed: false,
+        completedAt: undefined,
+        submissionNote: undefined,
+        artifactName: undefined,
+        artifactDataUrl: undefined,
+        checklist: day.checklist.map(item => ({ ...item, checked: false })),
+      })),
+    }));
+
+    const freshSkills = INITIAL_SKILLS.map(skill => ({
+      ...skill,
+      currentXp: 0,
+      completedExercisesCount: 0,
+      verifiedProjects: [],
+    }));
 
     return {
+      curriculumVersion: CURRICULUM_VERSION,
       currentRole: 'student',
-      stats: INITIAL_USER_STATS,
-      weeks: INITIAL_CURRICULUM,
+      stats: {
+        currentDay: 1,
+        totalDaysCompleted: 0,
+        streakDays: 0,
+        totalHoursLearned: 0,
+        totalXp: 0,
+        completedArtifactsCount: 0,
+        activeFilm: 'Film #1: Student Original Short (30–90 sec)',
+      },
+      weeks: freshWeeks,
       tutorials: TUTORIAL_LIBRARY,
       projects: INITIAL_PROJECTS,
       characters: INITIAL_CHARACTERS,
       shots: INITIAL_SHOTS,
       provenance: [INITIAL_PROVENANCE],
-      skills: INITIAL_SKILLS,
+      skills: freshSkills,
       opportunities: INITIAL_OPPORTUNITIES,
       aiTools: INITIAL_AI_TOOLS,
       storageMode: 'LOCAL_PROGRESS',
       lastSavedTimestamp: new Date().toISOString(),
     };
+  }
+
+  private loadInitialState(): StudioDatabaseState {
+    try {
+      // 1. Try to load from current storage key
+      let stored = localStorage.getItem(STORAGE_KEY);
+      let isFromLegacyKey = false;
+
+      // 2. Check legacy storage keys if current key does not exist
+      if (!stored) {
+        for (const legKey of LEGACY_STORAGE_KEYS) {
+          const legVal = localStorage.getItem(legKey);
+          if (legVal) {
+            stored = legVal;
+            isFromLegacyKey = true;
+            break;
+          }
+        }
+      }
+
+      if (stored) {
+        const parsed = JSON.parse(stored);
+
+        // Detect if stored data is from old pre-launch dev seeds
+        // The real student has not started yet; dev seed had Day 4, fake XP, or was saved under older schema
+        const isPreLaunchSeed =
+          isFromLegacyKey ||
+          !parsed.curriculumVersion ||
+          parsed.curriculumVersion < CURRICULUM_VERSION ||
+          parsed.stats?.currentDay === 4 ||
+          parsed.stats?.totalDaysCompleted === 3 ||
+          parsed.stats?.totalXp === 180 ||
+          parsed.weeks?.[0]?.days?.[0]?.title?.includes('Blender');
+
+        if (isPreLaunchSeed) {
+          console.info('[Curriculum Migration] Pre-launch seed or legacy version detected. Backing up and resetting to clean Day 1 launch state.');
+          try {
+            localStorage.setItem(AUTO_BACKUP_KEY, stored);
+            LEGACY_STORAGE_KEYS.forEach(k => localStorage.removeItem(k));
+          } catch (e) {
+            // ignore
+          }
+
+          const freshState = this.createFreshInitialState();
+          // Save the clean launch state to v3 storage key
+          try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(freshState));
+          } catch (e) {
+            // ignore
+          }
+          return freshState;
+        }
+
+        // 3. User is running CURRICULUM_VERSION >= 3 with genuine progress!
+        // Perform safe curriculum schema synchronization:
+        // Bundled INITIAL_CURRICULUM is authoritative for titles, descriptions, tutorials, tasks, checklists.
+        // User progress (completions, notes, artifacts, checkmarks) is preserved.
+        const completedDaysMap = new Map<string, Partial<LessonDay>>();
+        if (Array.isArray(parsed.weeks)) {
+          for (const oldWeek of parsed.weeks) {
+            if (Array.isArray(oldWeek.days)) {
+              for (const oldDay of oldWeek.days) {
+                if (oldDay.completed || oldDay.submissionNote || oldDay.artifactName || oldDay.artifactDataUrl) {
+                  completedDaysMap.set(oldDay.id, {
+                    completed: oldDay.completed,
+                    completedAt: oldDay.completedAt,
+                    submissionNote: oldDay.submissionNote,
+                    artifactName: oldDay.artifactName,
+                    artifactDataUrl: oldDay.artifactDataUrl,
+                    checklist: oldDay.checklist,
+                  });
+                }
+              }
+            }
+          }
+        }
+
+        // Deep merge bundled curriculum with user completions
+        const synchronizedWeeks = INITIAL_CURRICULUM.map(week => ({
+          ...week,
+          days: week.days.map(day => {
+            const userSaved = completedDaysMap.get(day.id);
+            if (userSaved && userSaved.completed) {
+              return {
+                ...day,
+                completed: true,
+                completedAt: userSaved.completedAt || new Date().toISOString(),
+                submissionNote: userSaved.submissionNote,
+                artifactName: userSaved.artifactName,
+                artifactDataUrl: userSaved.artifactDataUrl,
+                checklist: day.checklist.map(item => {
+                  const savedItem = userSaved.checklist?.find(c => c.id === item.id);
+                  return savedItem ? { ...item, checked: savedItem.checked } : item;
+                }),
+              };
+            }
+            return {
+              ...day,
+              completed: false,
+              completedAt: undefined,
+              submissionNote: undefined,
+              artifactName: undefined,
+              artifactDataUrl: undefined,
+              checklist: day.checklist.map(item => ({ ...item, checked: false })),
+            };
+          }),
+        }));
+
+        const actualCompletedCount = synchronizedWeeks.flatMap(w => w.days).filter(d => d.completed).length;
+        const actualXp = synchronizedWeeks
+          .flatMap(w => w.days)
+          .filter(d => d.completed)
+          .reduce((sum, d) => sum + (d.xpReward || 50), 0);
+        const actualArtifactsCount = synchronizedWeeks
+          .flatMap(w => w.days)
+          .filter(d => d.completed && (d.artifactName || d.artifactDataUrl)).length;
+
+        const currentDayNum = actualCompletedCount === 0 ? 1 : Math.min(365, actualCompletedCount + 1);
+
+        const state: StudioDatabaseState = {
+          curriculumVersion: CURRICULUM_VERSION,
+          currentRole: parsed.currentRole || 'student',
+          weeks: synchronizedWeeks,
+          tutorials: TUTORIAL_LIBRARY,
+          projects: parsed.projects?.length ? parsed.projects : INITIAL_PROJECTS,
+          characters: parsed.characters?.length ? parsed.characters : INITIAL_CHARACTERS,
+          shots: parsed.shots?.length ? parsed.shots : INITIAL_SHOTS,
+          provenance: parsed.provenance?.length ? parsed.provenance : [INITIAL_PROVENANCE],
+          skills: parsed.skills?.length ? parsed.skills : INITIAL_SKILLS,
+          opportunities: parsed.opportunities?.length ? parsed.opportunities : INITIAL_OPPORTUNITIES,
+          aiTools: INITIAL_AI_TOOLS,
+          stats: {
+            ...INITIAL_USER_STATS,
+            ...parsed.stats,
+            currentDay: currentDayNum,
+            totalDaysCompleted: actualCompletedCount,
+            totalXp: actualXp,
+            completedArtifactsCount: actualArtifactsCount,
+          },
+          storageMode: 'LOCAL_PROGRESS',
+          lastSavedTimestamp: new Date().toISOString(),
+        };
+
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        } catch (e) {
+          // ignore
+        }
+
+        return state;
+      }
+    } catch (e) {
+      console.warn('Could not read from localStorage, using initial clean launch state:', e);
+    }
+
+    const pristineState = this.createFreshInitialState();
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(pristineState));
+    } catch (e) {
+      // ignore
+    }
+    return pristineState;
   }
 
   private persist() {
@@ -251,11 +435,40 @@ export class StudioStorageService {
     return false;
   }
 
+  // Start Fresh action with automatic backup before reset
+  public startFreshWithBackup(): { backupCreated: boolean } {
+    try {
+      const currentRaw = localStorage.getItem(STORAGE_KEY);
+      if (currentRaw) {
+        localStorage.setItem(AUTO_BACKUP_KEY, currentRaw);
+      }
+    } catch (e) {
+      console.warn('Could not save pre-reset backup:', e);
+    }
+
+    localStorage.removeItem(STORAGE_KEY);
+    this.state = {
+      currentRole: 'student',
+      stats: INITIAL_USER_STATS,
+      weeks: INITIAL_CURRICULUM,
+      tutorials: TUTORIAL_LIBRARY,
+      projects: INITIAL_PROJECTS,
+      characters: INITIAL_CHARACTERS,
+      shots: INITIAL_SHOTS,
+      provenance: [INITIAL_PROVENANCE],
+      skills: INITIAL_SKILLS,
+      opportunities: INITIAL_OPPORTUNITIES,
+      aiTools: INITIAL_AI_TOOLS,
+      storageMode: 'LOCAL_PROGRESS',
+      lastSavedTimestamp: new Date().toISOString(),
+    };
+    this.persist();
+    return { backupCreated: true };
+  }
+
   // Reset demo data
   public resetToFactoryDemo() {
-    localStorage.removeItem(STORAGE_KEY);
-    this.state = this.loadInitialState();
-    this.persist();
+    this.startFreshWithBackup();
   }
 }
 
