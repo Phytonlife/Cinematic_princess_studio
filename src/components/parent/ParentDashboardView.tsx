@@ -62,6 +62,14 @@ export const ParentDashboardView: React.FC<ParentDashboardViewProps> = ({ state 
     }
   };
 
+  const handleResetToDay1 = () => {
+    if (window.confirm('Reset progress to Day 1 (Procreate Animation Assist)? An automatic backup will be created.')) {
+      studioStorage.resetToDay1();
+      setImportStatus('Progress reset to Day 1. Automatic backup saved.');
+      setTimeout(() => setImportStatus(null), 3000);
+    }
+  };
+
   // Student readiness status matrix without school grades
   const studentReadiness = [
     { skill: 'Drawing & Procreate Anatomy', status: 'MASTERED FOR CURRENT LEVEL', color: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30' },
@@ -93,7 +101,15 @@ export const ParentDashboardView: React.FC<ParentDashboardViewProps> = ({ state 
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              onClick={handleResetToDay1}
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 text-xs font-bold transition"
+              title="Reset progress to Day 1 Procreate Animation Assist"
+            >
+              <RefreshCw className="w-4 h-4" />
+              <span>Reset to Day 1</span>
+            </button>
             <button
               onClick={handleExportJson}
               className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition"

@@ -55,7 +55,7 @@ export const translations = {
     step_8_complete: '8. COMPLETE DAY {day} ✓',
     day_completed_btn: 'DAY COMPLETED · +{xp} XP RECORDED',
 
-    open_lesson: 'OPEN LESSON',
+    open_lesson: 'START LESSON (WATCH VIDEO)',
     official_source_badge: '⭐ OFFICIAL VERIFIED SOURCE',
     practice_ratio: '20% Learning · 80% Making',
     save_in_project_folder: 'Save inside your project folder',
@@ -83,7 +83,7 @@ export const translations = {
     phase_goal: 'PHASE {phase} GOAL',
     target_deliverable: 'Target Deliverable:',
     week_milestone: 'WEEKLY MILESTONE ARTIFACT:',
-    go_to_day: 'Go To Day',
+    go_to_day: 'Start Lesson',
 
     // Tutorial Library
     tut_badge: 'LINK SAFETY & QUALITY STANDARDS',
@@ -163,7 +163,7 @@ export const translations = {
     step_8_complete: '8. ЗАВЕРШИТЬ ДЕНЬ {day} ✓',
     day_completed_btn: 'ДЕНЬ ЗАВЕРШЁН · +{xp} XP НАЧИСЛЕНО',
 
-    open_lesson: 'ОТКРЫТЬ УРОК',
+    open_lesson: 'НАЧАТЬ УРОК (СМОТРЕТЬ ВИДЕО)',
     official_source_badge: '⭐ ОФИЦИАЛЬНЫЙ ПРОВЕРЕННЫЙ ИСТОЧНИК',
     practice_ratio: '20% Обучение · 80% Практика',
     save_in_project_folder: 'Сохрани файл в папку проекта',
@@ -191,7 +191,7 @@ export const translations = {
     phase_goal: 'ЦЕЛЬ ФАЗЫ {phase}',
     target_deliverable: 'Главный результат фазы:',
     week_milestone: 'АРТЕФАКТ НЕДЕЛИ:',
-    go_to_day: 'Перейти к дню',
+    go_to_day: 'Начать урок',
 
     // Tutorial Library
     tut_badge: 'СТАНДАРТ БЕЗОПАСНОСТИ ССЫЛОК',

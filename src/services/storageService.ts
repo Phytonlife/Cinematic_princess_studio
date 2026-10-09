@@ -446,24 +446,21 @@ export class StudioStorageService {
       console.warn('Could not save pre-reset backup:', e);
     }
 
-    localStorage.removeItem(STORAGE_KEY);
-    this.state = {
-      currentRole: 'student',
-      stats: INITIAL_USER_STATS,
-      weeks: INITIAL_CURRICULUM,
-      tutorials: TUTORIAL_LIBRARY,
-      projects: INITIAL_PROJECTS,
-      characters: INITIAL_CHARACTERS,
-      shots: INITIAL_SHOTS,
-      provenance: [INITIAL_PROVENANCE],
-      skills: INITIAL_SKILLS,
-      opportunities: INITIAL_OPPORTUNITIES,
-      aiTools: INITIAL_AI_TOOLS,
-      storageMode: 'LOCAL_PROGRESS',
-      lastSavedTimestamp: new Date().toISOString(),
-    };
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+      LEGACY_STORAGE_KEYS.forEach(k => localStorage.removeItem(k));
+    } catch (e) {
+      // ignore
+    }
+
+    this.state = this.createFreshInitialState();
     this.persist();
     return { backupCreated: true };
+  }
+
+  // Explicit Day 1 student launch reset
+  public resetToDay1(): { success: boolean } {
+    return { success: this.startFreshWithBackup().backupCreated };
   }
 
   // Reset demo data
